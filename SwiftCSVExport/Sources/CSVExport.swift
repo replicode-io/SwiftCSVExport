@@ -321,15 +321,8 @@ import Foundation
     @objc class func defaultDirectory() -> String {
         var path = ""
         let fileManager = FileManager.default
-        #if os(iOS)
-            let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-            path = "\(paths[0])/Exports"
-        #elseif os(OSX)
-            let urls = fileManager.urls(for: .libraryDirectory, in: .userDomainMask)
-            if let url = urls.last?.path {
-                path = "\(url)/Exports"
-            }
-        #endif
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        path = "\(paths[0])/Exports"
         if !fileManager.fileExists(atPath: path) && path != ""  {
             do {
                 try fileManager.createDirectory(atPath: path, withIntermediateDirectories: false, attributes: nil)
